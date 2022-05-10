@@ -37,4 +37,8 @@ public interface Player
     void addWin();
 
     void addLose();
+
+    void newGame(Game game);
+
+    boolean isIA();
 }

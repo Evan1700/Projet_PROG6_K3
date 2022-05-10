@@ -1,8 +1,9 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
-public class RealPlayer implements Player
+public class IARandom implements  Player
 {
     final String name;
     Game game;
@@ -14,7 +15,7 @@ public class RealPlayer implements Player
     int lastOffHeight, lastOffWidth;
 
 
-    public RealPlayer(String name, Game game)
+    public IARandom(String name, Game game)
     {
         this.game = game;
         this.name = name;
@@ -138,7 +139,7 @@ public class RealPlayer implements Player
     @Override
     public void createMyPyramid()
     {
-        Scanner scanner = new Scanner(System.in);
+        Random r = new Random();
         int index;
         int h=0;
         int w=0;
@@ -147,7 +148,7 @@ public class RealPlayer implements Player
             printMyPyramid();
             System.out.println(name + " choisir un index, start a 0, pour le 0, de gauche a droite et haut en bas:");
             printBaseTile();
-            index = scanner.nextInt();
+            index = r.nextInt(baseTile.size());
             pyramid.get(h)[w]= baseTile.get(index);
             baseTile.remove(index);
             w++;
@@ -245,7 +246,7 @@ public class RealPlayer implements Player
     @Override
     public void placeTile()
     {
-        Scanner scanner = new Scanner(System.in);
+        Random r = new Random();
         int color, height, width, list, index;
         boolean moveOk = false;
 
@@ -256,37 +257,44 @@ public class RealPlayer implements Player
             printBonusTileReady();
 
             System.out.println(name +" Choisir bonus=0 ou rdy=1");
-            list = scanner.nextInt();
+            list = r.nextInt(2);
+            if(bonusTileReady.isEmpty() && !tileReady.isEmpty()) list = 1;
+            else if(tileReady.isEmpty() && !bonusTileReady.isEmpty()) list = 0;
+            System.out.println(list);
             if(list == 0)
             {
                 System.out.println(name+" Choisir la tile avec index");
-                index = scanner.nextInt();
+                index = r.nextInt(bonusTileReady.size());
+                System.out.println(index);
                 color = bonusTileReady.get(index);
                 System.out.println(name+" Choisir la hauteur de l'emplacement");
-                height = scanner.nextInt();
+                height = r.nextInt(pyramid.size());
+                if(height == 0) height++;
+                System.out.println(height);
                 System.out.println(name+" Choisir case");
-                width = scanner.nextInt();
+                width = r.nextInt(pyramid.get(height).length-1)+1;
+                System.out.println(width);
                 moveOk = game.addPyramid(color, height, width);
                 if(moveOk)
                 {
                     bonusTileReady.remove(index);
                     game.penalty(height, width);
                 }
-                else
-                {
-                    System.out.println("Mauvais placement retry");
-                    game.printPyramid();
-                }
+                else System.out.println("Mauvais placement retry");
             }
             else
             {
                 System.out.println(name+" Choisir la tile avec index");
-                index = scanner.nextInt();
+                index = r.nextInt(tileReady.size());
+                System.out.println(index);
                 color = pyramid.get(tileReady.get(index)[0])[tileReady.get(index)[1]];
                 System.out.println(name+" Choisir la hauteur de l'emplacement");
-                height = scanner.nextInt();
+                height = r.nextInt(pyramid.size());
+                if(height == 0) height++;
+                System.out.println(height);
                 System.out.println(name+" Choisir case");
-                width = scanner.nextInt();
+                width = r.nextInt(pyramid.get(height).length);
+                System.out.println(width);
                 moveOk = game.addPyramid(color, height, width);
                 if(moveOk)
                 {
@@ -296,15 +304,11 @@ public class RealPlayer implements Player
                     tileReady.remove(index);
                     setTileReady();
                 }
-                else
-                {
-                    System.out.println("Mauvais placement retry");
-                    game.printPyramid();
-                }
+                else System.out.println("Mauvais placement retry");
             }
         }
     }
 
     @Override
-    public boolean isIA(){ return false;}
+    public boolean isIA(){ return true;}
 }

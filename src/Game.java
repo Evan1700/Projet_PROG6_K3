@@ -14,8 +14,11 @@ public class Game {
     List<Integer> normalTile;
     List<int[]> pyramid;
     Player[] players;
+    long[] playerTime;
 
     int actifPlayer;
+
+    boolean isFinish;
 
     public Game()
     {
@@ -35,6 +38,10 @@ public class Game {
 
         Random r = new Random();
         actifPlayer = r.nextInt(2);
+
+        playerTime = new long[2];
+
+        isFinish = false;
 
     }
 
@@ -85,9 +92,17 @@ public class Game {
     {
         while(!players[0].isBaseTileEmpty() || !players[1].isBaseTileEmpty())
         {
+            long begin  = System.nanoTime();
             players[actifPlayer].createMyPyramid();
+            long end = System.nanoTime();
+            if(players[actifPlayer].isIA()) playerTime[actifPlayer] = 1000000000;
+            else playerTime[actifPlayer] = end - begin;
+            System.out.println("Time taken :" +playerTime[actifPlayer]);
             actifPlayer = (actifPlayer+1)%2;
+            if(!players[(actifPlayer+1)%2].canPlay()) endGame();
         }
+        if(playerTime[0]>playerTime[1]) actifPlayer = 1;
+        else if(playerTime[1]>playerTime[0]) actifPlayer = 0;
     }
 
     public void nextRound()
@@ -95,15 +110,16 @@ public class Game {
         printPyramid();
         System.out.println("Tour de "+ players[actifPlayer].getName());
         players[actifPlayer].placeTile();
-        if(!players[actifPlayer].canPlay()) endGame();
+        if(!players[(actifPlayer+1)%2].canPlay()) endGame();
     }
 
     public void endGame()
     {
-        System.out.println("Perdant " + players[actifPlayer].getName());
-        players[actifPlayer].addLose();
-        System.out.println("Gagnant" + players[(actifPlayer+1)%2].getName());
-        players[(actifPlayer+1)%2].addWin();
+        isFinish = true;
+        System.out.println("Gagnant " + players[actifPlayer].getName());
+        players[actifPlayer].addWin();
+        System.out.println("Perdant " + players[(actifPlayer+1)%2].getName());
+        players[(actifPlayer+1)%2].addLose();
     }
 
     public void addPlayers(Player p1, Player p2)
@@ -195,8 +211,8 @@ public class Game {
 
     public boolean addPyramid(int c, int height, int width)
     {
-        if(c == -1) return true;
-        if(pyramid.get(height)[width]==-1 || pyramid.get(height-1)[width]==-1 || pyramid.get(height-1)[width+1]==-1 || (pyramid.get(height-1)[width]!=c && pyramid.get(height-1)[width+1]!=c && c!=0)) return false;
+        if(c == 6) return true;
+        if(pyramid.get(height)[width]==0 || pyramid.get(height-1)[width]==0 || pyramid.get(height-1)[width+1]==0 || (pyramid.get(height-1)[width]!=c && pyramid.get(height-1)[width+1]!=c && c!=0)) return false;
 
         pyramid.get(height)[width] = c;
         actifPlayer = (actifPlayer+1)%2;
