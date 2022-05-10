@@ -17,6 +17,7 @@ public class Controller
         Player[] playersActif = new Player[2];
         playersActif[0] = new RealPlayer("Joueur 1", game);
         playersActif[1] = new IARandom("Joueur 2", game);
+        game.iu = new IU(game);
         game.initPyramid();
         game.addPlayers(playersActif[0], playersActif[1]);
         game.generateBaseTile();

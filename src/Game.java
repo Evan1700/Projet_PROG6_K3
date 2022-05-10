@@ -15,6 +15,7 @@ public class Game {
     List<int[]> pyramid;
     Player[] players;
     long[] playerTime;
+    IU iu;
 
     int actifPlayer;
 
