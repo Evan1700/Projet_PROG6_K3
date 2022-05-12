@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Game {
     final int WHITE = 6;
-    final int JOKER = 0;
+    final int JOKER = 7;
     final int YELLOW = 1;
     final int BLACK = 2;
     final int RED = 3;
@@ -15,11 +15,14 @@ public class Game {
     List<int[]> pyramid;
     Player[] players;
     long[] playerTime;
-    IU iu;
 
     int actifPlayer;
 
     boolean isFinish;
+
+    int[] sidePyramid;
+    boolean sidePyramidIsLeft;
+    int sidePyramidIndex;
 
     public Game()
     {
@@ -110,7 +113,8 @@ public class Game {
     {
         printPyramid();
         System.out.println("Tour de "+ players[actifPlayer].getName());
-        players[actifPlayer].placeTile();
+        if(pyramid.get(pyramid.size()-1)[0]==0) players[actifPlayer].placeTile();
+        else players[actifPlayer].placeTileSidePyramid();
         if(!players[(actifPlayer+1)%2].canPlay()) endGame();
     }
 
@@ -213,11 +217,46 @@ public class Game {
     public boolean addPyramid(int c, int height, int width)
     {
         if(c == 6) return true;
-        if(pyramid.get(height)[width]==0 || pyramid.get(height-1)[width]==0 || pyramid.get(height-1)[width+1]==0 || (pyramid.get(height-1)[width]!=c && pyramid.get(height-1)[width+1]!=c && c!=0)) return false;
+        if(pyramid.get(height)[width]!=0 || pyramid.get(height-1)[width]==0 || pyramid.get(height-1)[width+1]==0 || (pyramid.get(height-1)[width]!=c && pyramid.get(height-1)[width+1]!=c && c!=0)) return false;
 
         pyramid.get(height)[width] = c;
         actifPlayer = (actifPlayer+1)%2;
+        if(pyramid.size()-1==height && width == 0) initSidePyramid();
 
+        return true;
+    }
+
+    public void initSidePyramid()
+    {
+        sidePyramid = new int[10];
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(players[actifPlayer]+" Choisir gauche=0 ou droite=1");
+        int r = -1;
+        while(r!=1 && r!=0) r = scanner.nextInt();
+        sidePyramidIsLeft = r == 0;
+
+        int sidePyramidIndex = 0;
+    }
+
+    public boolean addSidePyramid(int c)
+    {
+       /* if(sidePyramidIsLeft)
+        {
+            if(sidePyramidIndex==0)
+            {
+                sidePyramid[0] = c;
+                sidePyramidIndex++;
+            }
+            else
+            {
+                if(sidePyramid[sidePyramidIn)
+            }
+        }
+        else
+        {
+
+        }*/
         return true;
     }
 

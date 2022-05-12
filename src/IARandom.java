@@ -311,4 +311,10 @@ public class IARandom implements  Player
 
     @Override
     public boolean isIA(){ return true;}
+
+    @Override
+    public void placeTileSidePyramid()
+    {
+
+    }
 }

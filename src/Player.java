@@ -41,4 +41,6 @@ public interface Player
     void newGame(Game game);
 
     boolean isIA();
+
+    void placeTileSidePyramid();
 }
