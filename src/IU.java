@@ -106,5 +106,7 @@ public class IU {
 
     }
 
+    public void errorPlayerName(){ JOptionPane.showMessageDialog(screen, "Empty player name"); }
+
     public void showParameterDisplay() { cardLayout.show(screen.getContentPane(), "parameterDisplay"); }
 }

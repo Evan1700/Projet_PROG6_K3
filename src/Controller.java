@@ -34,13 +34,12 @@ public class Controller
 
     void initGame()
     {
-        /*Ajouter le cas ou le nom est vide est enlever le commentaire
         if((iu.nameP1TextField.getText().equals("") && !iu.iaCheckBoxP1.isSelected()) || (iu.nameP2TextField.getText().equals("") && !iu.iaCheckBoxP2.isSelected()))
         {
-            iu.errorNomJoueurs();
+            iu.errorPlayerName();
             return;
         }
-        */
+        
         if(iu.iaCheckBoxP1.isSelected())
         {
             String typeIaStringP1 = (String) iu.typeIaComboBoxP1.getSelectedItem();
