@@ -117,7 +117,7 @@ public class Controller
     }
 
     void play(int width, int height, int playerNumber){
-        
+
     }
 
     public static void main (String[] args)

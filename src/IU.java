@@ -5,6 +5,7 @@ public class IU {
     
     Game game;
     Controller controller;
+
     JLabel gameInfoLabel , iaLabelP1, iaLabelP2 , okLabel ;
     JTextField nameP1TextField , nameP2TextField ;
     JButton menuButton , okButton , newGameButton ;
@@ -12,15 +13,23 @@ public class IU {
     JPanel parameterPanel;
     JComboBox<String> typeIaComboBoxP1,typeIaComboBoxP2 , saveComboBox , classementComboBox;
     JCheckBox iaCheckBoxP1, iaCheckBoxP2 ;
-    CardLayout cardLayout ;
+    CardLayout cardLayout;
 
-    public IU(Game game, Controller controller)
+    PlayerPanel panelP1, panelP2;
+
+    JFrame centerFrame;
+    CardLayout centerCardLayout;
+    InitPanel initPanel;
+    MenuPanel menuPanel;
+    MainPanel mainPanel;
+
+    public IU( Controller controller)
     {
-        this.game = game ;
         this.controller = controller;
+        this.game = controller.game;
         init();
         initParameterPanel();
-        showParameterDisplay();
+        showParameterPanel();
     }
 
     private void init(){
@@ -36,6 +45,28 @@ public class IU {
         screen.setLayout(cardLayout);
 
         screen.setVisible(true);
+    }
+
+    public void initPlayerPanel()
+    {
+        panelP1 = new PlayerPanel(controller);
+        panelP2 = new PlayerPanel(controller);
+    }
+
+    public void initPanel()
+    {
+        initPanel = new InitPanel(controller);
+        menuPanel = new MenuPanel(controller);
+        mainPanel = new MainPanel(controller);
+
+        centerFrame = new JFrame();
+        centerCardLayout = new CardLayout();
+
+        centerFrame.setLayout(centerCardLayout);
+
+        centerFrame.getContentPane().add(initPanel, "InitPanel");
+        centerFrame.getContentPane().add(mainPanel, "MainPanel");
+        centerFrame.getContentPane().add(menuPanel, "MenuPanel");
     }
 
     private void initParameterPanel(){
@@ -101,12 +132,12 @@ public class IU {
         parameterPanel.add(classementLabel);
         parameterPanel.add(classementComboBox);
 
-        screen.getContentPane().add(parameterPanel, "parameterDisplay");
+        screen.getContentPane().add(parameterPanel, "parameterPanel");
         screen.getContentPane().validate();
 
     }
 
     public void errorPlayerName(){ JOptionPane.showMessageDialog(screen, "Empty player name"); }
 
-    public void showParameterDisplay() { cardLayout.show(screen.getContentPane(), "parameterDisplay"); }
+    public void showParameterPanel() { cardLayout.show(screen.getContentPane(), "parameterPanel"); }
 }

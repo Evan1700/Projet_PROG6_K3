@@ -3,18 +3,20 @@ import java.util.*;
 import java.util.List;
 
 public class Game {
-    final int WHITE = 6;
-    final int JOKER = 7;
-    final int YELLOW = 1;
-    final int BLACK = 2;
-    final int RED = 3;
-    final int BLUE = 4;
-    final int GREEN = 5;
+    final Color WHITE = Color.WHITE;
+    final Color JOKER = 7;
+    final Color YELLOW = 1;
+    final Color BLACK = 2;
+    final Color RED = 3;
+    final Color BLUE = 4;
+    final Color GREEN = 5;
 
-    List<Integer> normalTile;
-    List<int[]> pyramid;
+    List<Color> normalTile;
+    List<Color[]> pyramid;
     Player[] players;
     long[] playerTime;
+
+    Hashtable<Color, Color> opaqueColor;
 
     int actifPlayer;
 
