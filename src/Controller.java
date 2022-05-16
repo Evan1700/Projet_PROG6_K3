@@ -116,13 +116,17 @@ public class Controller
         this.game = game;
     }
 
+    void play(int width, int height, int playerNumber){
+        
+    }
+
     public static void main (String[] args)
     {
 
         Controller controller = new Controller();
         controller.addIA();
         Game game = new Game();
-        IU iu = new IU(game, controller);
+        IU iu = new IU(controller);
         controller.addIUandGame(iu, game);
 
         return;
